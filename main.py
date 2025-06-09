@@ -46,3 +46,4 @@ y_train = KNN_training['rating'].values
 y_val = KNN_validation['rating'].values
 print(f"tf-idf vectorized training set size: {x_train.shape}")
 print(f"tf-idf vectorized validation set size: {x_val.shape}")
+
