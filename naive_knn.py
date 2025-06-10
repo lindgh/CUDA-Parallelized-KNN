@@ -13,7 +13,7 @@ def cosine_similarity(a, b):
     return dot / (A_norm * B_norm)
 
 
-def predict_knn(X_train, Y_train, X_test, k = 3):
+def predict_knn(X_train, Y_train, X_test, k):
     distances = []
     for i in range(len(X_train)):
         similarity = cosine_similarity(X_train[i], X_test)
@@ -26,7 +26,7 @@ def predict_knn(X_train, Y_train, X_test, k = 3):
     return most_common
 
 
-def run_naive_knn(X_train, Y_train, X_val, Y_val, k = 3):
+def run_naive_knn(X_train, Y_train, X_val, Y_val, k):
     print("\n=== Running Naive CPU Version of KNN ===\n")
     start = time.time()
 
