@@ -2,6 +2,8 @@ import pandas as pd
 import re as regex
 from sklearn.feature_extraction.text import TfidfVectorizer
 from naive_knn import run_naive_knn
+from naive_K_search import naive_bestKsearch
+
 
 print("\n=============== CUDA PARALLELIZED K-NEAREST NEIGHBOR CLASSIFICATION ===============")
 
@@ -57,4 +59,10 @@ print(f"tf-idf vectorized validation set size: {x_val.shape}")
 print("\n=============== KNN CLASSIFICATION ===============")
 
 run_naive_knn(x_train, y_train, x_val, y_val, k = 3)
+
+
+print("\n=============== FINDING THE BEST K VALUE ===============")
+
+naive_bestKsearch(x_train, y_train, x_val, y_val, 10)
+
 
