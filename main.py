@@ -1,6 +1,7 @@
 import pandas as pd
 import re as regex
 from sklearn.feature_extraction.text import TfidfVectorizer
+from naive_knn import run_naive_knn
 
 digital_music = pd.read_csv("StratifiedSample.csv")
 
@@ -46,4 +47,6 @@ y_train = KNN_training['rating'].values
 y_val = KNN_validation['rating'].values
 print(f"tf-idf vectorized training set size: {x_train.shape}")
 print(f"tf-idf vectorized validation set size: {x_val.shape}")
+
+run_naive_knn(x_train, y_train, x_val, y_val, k = 3)
 
