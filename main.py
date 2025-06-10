@@ -2,6 +2,8 @@ import pandas as pd
 import re as regex
 from sklearn.feature_extraction.text import TfidfVectorizer
 
+from parallelKNN import numbaParallelKNN
+
 digital_music = pd.read_csv("StratifiedSample.csv")
 
 #SOME CLEANING
@@ -51,6 +53,5 @@ print(f"tf-idf vectorized validation set size: {x_val.shape}")
 
 #CPU ONLY:
 
-
-#NUMBA KERNEL:
-
+#NUMBA PARALLEL KERNEL:
+numbaParallelKNN(x_train, y_train, x_val, y_val, k = 3)
