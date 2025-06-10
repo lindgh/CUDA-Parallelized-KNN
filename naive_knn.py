@@ -47,3 +47,4 @@ def run_naive_knn(X_train, Y_train, X_val, Y_val, k = 3):
     print(f"Strict Accuracy: {correct}/{total} = {correct/total:.4f}")
     print(f"Ranged (+/-1) Accuracy: {ranged_correct}/{total} = {ranged_correct/total:.4f}")
     print(f"Total time: {end - start:.2f} seconds") 
+    print("\n=== Ending Naive CPU Version of KNN ===\n")

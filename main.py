@@ -3,6 +3,8 @@ import re as regex
 from sklearn.feature_extraction.text import TfidfVectorizer
 from naive_knn import run_naive_knn
 
+print("\n=============== CUDA PARALLELIZED K-NEAREST NEIGHBOR CLASSIFICATION ===============")
+
 digital_music = pd.read_csv("StratifiedSample.csv")
 
 #SOME CLEANING
@@ -26,6 +28,7 @@ KNN_training = digital_music.drop(KNN_validation.index) #160 training from each 
 
 #DROP ALL THE USELESS STUFF 
 #KNN_validation = 
+print("\n=============== CREATING TEST AND VALIDATION SETS ===============")
 
 #MAKE SURE THAT EVERYTHING CAME OUT ALRIGHT
 print(f"train size: {KNN_training.shape}")
@@ -37,6 +40,8 @@ print(f"validation size: {KNN_validation.shape}")
 # stopwords remove common englihs words, max features means 3000 most frequent words
 vectorizer = TfidfVectorizer(stop_words='english', max_features=3000)
 
+print("\n----- TF-IDF vectorizing -----")
+
 #input features for training and testing 
 x_train = vectorizer.fit_transform(KNN_training['combine_title_text']).toarray()
 x_val = vectorizer.transform(KNN_validation['combine_title_text']).toarray()
@@ -47,6 +52,9 @@ y_train = KNN_training['rating'].values
 y_val = KNN_validation['rating'].values
 print(f"tf-idf vectorized training set size: {x_train.shape}")
 print(f"tf-idf vectorized validation set size: {x_val.shape}")
+
+
+print("\n=============== KNN CLASSIFICATION ===============")
 
 run_naive_knn(x_train, y_train, x_val, y_val, k = 3)
 
