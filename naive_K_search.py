@@ -12,7 +12,7 @@ def naive_bestKsearch(x_train, y_train, x_val, y_val, krange, predict_device):
     BEST_RANGED_K = -1
     BEST_RANGED_ACCURACY = -1
 
-    print("\n--- NAIVE FIND BEST K ---")
+    # print("\n--- NAIVE FIND BEST K ---")
 
     start_overall = time.time()
     #loop through all k ranges    
@@ -47,5 +47,5 @@ def naive_bestKsearch(x_train, y_train, x_val, y_val, krange, predict_device):
     print(f"\nBEST STRICT K: {BEST_K}, ACCURACY: {BEST_ACCURACY:.4f}")
     print(f"BEST RANGED K: {BEST_RANGED_K}, RANGED ACCURACY: {BEST_RANGED_ACCURACY:.4f}")
     print(f"Total time: {end_overall - start_overall:.2f} seconds") 
-    print("\n--- END NAIVE FIND BEST K ---")
+    #print("\n--- END NAIVE FIND BEST K ---")
 

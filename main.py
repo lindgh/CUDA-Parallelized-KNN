@@ -69,9 +69,17 @@ print("\n=============== KNN CLASSIFICATION (k = 3) ===============")
 
 run_naive_knn(X_train, y_train, X_val, y_val, k = 3)
 
+
 numbaParallelKNN(X_train, y_train, X_val, y_val, k = 3)
 
 print("\n=============== FINDING THE BEST K VALUE ===============")
+print("\n--- STARTING NAIVE FIND BEST K ---")
 
-naive_bestKsearch(X_train, y_train, X_val, y_val, 15, predict_knn_cpu)
-naive_bestKsearch(X_train, y_train, X_val, y_val, 15, predict_knn_gpu)
+krange = 25
+
+naive_bestKsearch(X_train, y_train, X_val, y_val, krange, predict_knn_cpu)
+print("\n--- ENDING NAIVE FIND BEST K ---")
+
+print("\n--- STARTING GPU FIND BEST K ---")
+naive_bestKsearch(X_train, y_train, X_val, y_val, krange, predict_knn_gpu)
+print("\n--- ENDING GPU FIND BEST K ---")
