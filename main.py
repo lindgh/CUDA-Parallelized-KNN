@@ -1,5 +1,6 @@
 import pandas as pd
 import re as regex
+import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
 from naive_knn import run_naive_knn
@@ -75,11 +76,31 @@ numbaParallelKNN(X_train, y_train, X_val, y_val, k = 3)
 print("\n=============== FINDING THE BEST K VALUE ===============")
 print("\n--- STARTING NAIVE FIND BEST K ---")
 
-krange = 25
+krange = range(1,26)
 
 naive_bestKsearch(X_train, y_train, X_val, y_val, krange, predict_knn_cpu)
 print("\n--- ENDING NAIVE FIND BEST K ---")
 
 print("\n--- STARTING GPU FIND BEST K ---")
-naive_bestKsearch(X_train, y_train, X_val, y_val, krange, predict_knn_gpu)
+strict_accuracy, ranged_accuracy = naive_bestKsearch(X_train, y_train, X_val, y_val, krange, predict_knn_gpu)
 print("\n--- ENDING GPU FIND BEST K ---")
+
+
+#PRINT FIND BEST K FUNCTION OUT ONTO GRAPH
+#k_range = range(1,101)
+
+#strict_accuracy, ranged_accuracy = naive_bestKsearch(x_train, y_train, x_val, y_val, 100, predict_knn_gpu)
+
+
+
+plt.figure(figsize=(10, 6))
+plt.plot(krange, strict_accuracy, marker='o', label='Strict Accuracy')
+plt.plot(krange, ranged_accuracy, marker='s', label='Ranged Accuracy (+/-1)')
+plt.title('KNN Accuracy vs. K')
+plt.xlabel('K (#neighbors)')
+plt.ylabel('Accuracy')
+plt.grid(True)
+plt.legend()
+plt.tight_layout()
+
+plt.savefig("knn_accuracy_plot.png")

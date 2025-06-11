@@ -7,6 +7,10 @@ import time
 from collections import Counter
 
 def naive_bestKsearch(x_train, y_train, x_val, y_val, krange, predict_device):
+    #for making graph:
+    accuracies = []
+    ranged_accuracies = []
+    #########################
     BEST_K = -1
     BEST_ACCURACY = -1
     BEST_RANGED_K = -1
@@ -16,7 +20,7 @@ def naive_bestKsearch(x_train, y_train, x_val, y_val, krange, predict_device):
 
     start_overall = time.time()
     #loop through all k ranges    
-    for k in range(1,krange + 1):
+    for k in krange:
         correct = 0
         ranged_correct = 0
         start_individual = time.time()	
@@ -34,6 +38,10 @@ def naive_bestKsearch(x_train, y_train, x_val, y_val, krange, predict_device):
         accuracy = correct / len(y_val)
         ranged_accuracy = ranged_correct / len(y_val)
 	
+        #for graphs
+        accuracies.append(accuracy)
+        ranged_accuracies.append(ranged_accuracy)
+
         print(f"K={k:3d} | Accuracy={accuracy:.4f} | Ranged Accuracy ={ranged_accuracy:.4f} | Time: {end_individual - start_individual:.2f} seconds")
 
         if accuracy > BEST_ACCURACY:
@@ -48,4 +56,5 @@ def naive_bestKsearch(x_train, y_train, x_val, y_val, krange, predict_device):
     print(f"BEST RANGED K: {BEST_RANGED_K}, RANGED ACCURACY: {BEST_RANGED_ACCURACY:.4f}")
     print(f"Total time: {end_overall - start_overall:.2f} seconds") 
     #print("\n--- END NAIVE FIND BEST K ---")
+    return accuracies, ranged_accuracies
 
