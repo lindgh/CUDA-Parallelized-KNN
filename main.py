@@ -63,6 +63,6 @@ run_naive_knn(x_train, y_train, x_val, y_val, k = 3)
 
 print("\n=============== FINDING THE BEST K VALUE ===============")
 
-naive_bestKsearch(x_train, y_train, x_val, y_val, 5)
+naive_bestKsearch(x_train, y_train, x_val, y_val, 15)
 
 
