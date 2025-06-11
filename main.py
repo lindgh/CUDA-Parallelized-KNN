@@ -1,6 +1,7 @@
 import pandas as pd
 import re as regex
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.decomposition import TruncatedSVD
 from naive_knn import run_naive_knn
 from naive_K_search import naive_bestKsearch
 
@@ -48,6 +49,11 @@ print("\n----- TF-IDF vectorizing -----")
 x_train = vectorizer.fit_transform(KNN_training['combine_title_text']).toarray()
 x_val = vectorizer.transform(KNN_validation['combine_title_text']).toarray()
 
+#MAKE DENSE VECTORS
+svd = TruncatedSVD(n_components=100, random_state=42)
+X_train = svd.fit_transform(x_train)
+X_val = svd.transform(x_val)
+
 #target predictions
 #true label
 y_train = KNN_training['rating'].values  
@@ -58,11 +64,11 @@ print(f"tf-idf vectorized validation set size: {x_val.shape}")
 
 print("\n=============== KNN CLASSIFICATION ===============")
 
-run_naive_knn(x_train, y_train, x_val, y_val, k = 3)
+run_naive_knn(X_train, y_train, X_val, y_val, k = 3)
 
 
 print("\n=============== FINDING THE BEST K VALUE ===============")
 
-naive_bestKsearch(x_train, y_train, x_val, y_val, 15)
+naive_bestKsearch(X_train, y_train, X_val, y_val, 15)
 
 
