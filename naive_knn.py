@@ -13,7 +13,8 @@ def cosine_similarity(a, b):
     return dot / (A_norm * B_norm)
 
 
-def predict_knn(X_train, Y_train, X_test, k):
+def predict_knn_cpu(X_train, Y_train, X_test, k):
+
     distances = []
     for i in range(len(X_train)):
         similarity = cosine_similarity(X_train[i], X_test)
@@ -34,7 +35,7 @@ def run_naive_knn(X_train, Y_train, X_val, Y_val, k):
     ranged_correct = 0
 
     for i in range(len(X_val)):
-        pred = predict_knn(X_train, Y_train, X_val[i], k)
+        pred = predict_knn_cpu(X_train, Y_train, X_val[i], k)
         actual = Y_val[i]
         if pred == actual:
             correct += 1

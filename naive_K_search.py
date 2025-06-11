@@ -5,9 +5,8 @@ import numpy as np
 import time
 
 from collections import Counter
-from naive_knn import predict_knn
 
-def naive_bestKsearch(x_train, y_train, x_val, y_val, krange):
+def naive_bestKsearch(x_train, y_train, x_val, y_val, krange, predict_device):
     BEST_K = -1
     BEST_ACCURACY = -1
     BEST_RANGED_K = -1
@@ -23,7 +22,7 @@ def naive_bestKsearch(x_train, y_train, x_val, y_val, krange):
         start_individual = time.time()	
 	#calculate KNN
         for i in range(len(x_val)):
-            pred = predict_knn(x_train, y_train, x_val[i], k)
+            pred = predict_device(x_train, y_train, x_val[i], k)
             actual = y_val[i]
 
             if pred == actual:

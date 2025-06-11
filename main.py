@@ -9,6 +9,8 @@ from naive_K_search import naive_bestKsearch
 print("\n=============== CUDA PARALLELIZED K-NEAREST NEIGHBOR CLASSIFICATION ===============")
 
 from parallelKNN import numbaParallelKNN
+from parallelKNN import predict_knn_gpu
+from naive_knn import predict_knn_cpu
 
 digital_music = pd.read_csv("StratifiedSample.csv")
 
@@ -63,12 +65,13 @@ y_val = KNN_validation['rating'].values
 print(f"tf-idf vectorized training set size: {x_train.shape}")
 print(f"tf-idf vectorized validation set size: {x_val.shape}")
 
-print("\n=============== KNN CLASSIFICATION ===============")
+print("\n=============== KNN CLASSIFICATION (k = 3) ===============")
 
 run_naive_knn(X_train, y_train, X_val, y_val, k = 3)
 
-numbaParallelKNN(x_train, y_train, x_val, y_val, k = 3)
+numbaParallelKNN(X_train, y_train, X_val, y_val, k = 3)
 
 print("\n=============== FINDING THE BEST K VALUE ===============")
 
-naive_bestKsearch(X_train, y_train, X_val, y_val, 15)
+naive_bestKsearch(X_train, y_train, X_val, y_val, 15, predict_knn_cpu)
+naive_bestKsearch(X_train, y_train, X_val, y_val, 15, predict_knn_gpu)

@@ -64,3 +64,20 @@ def numbaParallelKNN(x_train, y_train, x_val, y_val, k):
         print(f"Strict Accuracy: {CORRECT}/{total} = {CORRECT/total:.4f}")
         print(f"Ranged (+/-1) Accuracy: {RANGED_CORRECT}/{total} = {RANGED_CORRECT/total:.4f}")
         print(f"Total GPU time: {end - start:.2f} seconds")
+        print("\n=== Running GPU KNN ===")
+
+def predict_knn_gpu(x_train, y_train, x_test_row, k):
+        BLOCK_SIZE = 32
+        dim_grid = (x_train.shape[0] + BLOCK_SIZE - 1) // BLOCK_SIZE
+
+        train_d = cuda.to_device(x_train.astype(np.float32))
+        test_d = cuda.to_device(x_test_row[np.newaxis, :].astype(np.float32))
+        distances_d = cuda.device_array(x_train.shape[0], dtype=np.float32)
+
+        cosineSim[dim_grid , BLOCK_SIZE](train_d, test_d, distances_d)
+
+        cosineDistances = distances_d.copy_to_host()
+        closestReviews = np.argsort(cosineDistances)[:k]
+        closestLabels = y_train[closestReviews]
+        predictedRating = Counter(closestLabels).most_common(1)[0][0]
+        return predictedRating
