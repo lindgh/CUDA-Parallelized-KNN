@@ -1,6 +1,12 @@
 import pandas as pd
 import re as regex
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.decomposition import TruncatedSVD
+from naive_knn import run_naive_knn
+from naive_K_search import naive_bestKsearch
+
+
+print("\n=============== CUDA PARALLELIZED K-NEAREST NEIGHBOR CLASSIFICATION ===============")
 
 from parallelKNN import numbaParallelKNN
 
@@ -25,8 +31,9 @@ KNN_validation = rating_groups.tail(40) #40 validation from each rating
 KNN_training = digital_music.drop(KNN_validation.index) #160 training from each rating
 
 
-#DROP ALL THE USELESS STUFF 
+#DROP ALL THE USELESS STUFF
 #KNN_validation = 
+print("\n=============== CREATING TEST AND VALIDATION SETS ===============")
 
 #MAKE SURE THAT EVERYTHING CAME OUT ALRIGHT
 print(f"train size: {KNN_training.shape}")
@@ -38,9 +45,16 @@ print(f"validation size: {KNN_validation.shape}")
 # stopwords remove common englihs words, max features means 3000 most frequent words
 vectorizer = TfidfVectorizer(stop_words='english', max_features=3000)
 
+print("\n----- TF-IDF vectorizing -----")
+
 #input features for training and testing 
 x_train = vectorizer.fit_transform(KNN_training['combine_title_text']).toarray()
 x_val = vectorizer.transform(KNN_validation['combine_title_text']).toarray()
+
+#MAKE DENSE VECTORS
+svd = TruncatedSVD(n_components=100, random_state=42)
+X_train = svd.fit_transform(x_train)
+X_val = svd.transform(x_val)
 
 #target predictions
 #true label
@@ -49,9 +63,12 @@ y_val = KNN_validation['rating'].values
 print(f"tf-idf vectorized training set size: {x_train.shape}")
 print(f"tf-idf vectorized validation set size: {x_val.shape}")
 
-#ACTUAL KERNELS:
+print("\n=============== KNN CLASSIFICATION ===============")
 
-#CPU ONLY:
+run_naive_knn(X_train, y_train, X_val, y_val, k = 3)
 
-#NUMBA PARALLEL KERNEL:
 numbaParallelKNN(x_train, y_train, x_val, y_val, k = 3)
+
+print("\n=============== FINDING THE BEST K VALUE ===============")
+
+naive_bestKsearch(X_train, y_train, X_val, y_val, 15)
