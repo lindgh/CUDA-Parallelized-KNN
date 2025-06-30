@@ -11,7 +11,7 @@
 
 ## Project Overview
 
-LGS used CUDA to parallelize a K-Nearest neighbor (KNN) classifier that predicts the ‘star-rating’ of Amazon reviews for digital music products. The classifier used TF-IDF feature vectors extracted from the review text. Our project optimizes and improves Glider’s portion of a project from CS105. Below are links to the original project and dataset we used.
+We used CUDA to parallelize a K-Nearest neighbor (KNN) classifier that predicts the ‘star-rating’ of Amazon reviews for digital music products. The classifier used TF-IDF feature vectors extracted from the review text. Our project optimizes and improves Glider’s portion of a project from CS105. Below are links to the original project and dataset we used.
 
 - [Original Project](https://colab.research.google.com/drive/19okzU6i1WmpZDTi0z8zsshTYogO_CSpa?usp=sharing)
 
